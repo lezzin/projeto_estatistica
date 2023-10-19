@@ -41,7 +41,7 @@ class Materia(models.Model):
     
     
 class Conteudo(models.Model):
-    descricao = models.CharField(max_length=255)
+    descricao = models.CharField()
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
      
     def __str__(self):

@@ -24,4 +24,5 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name = "index.html"), name="index"),
     path('materias/', consulta_materias, name="materias"),
     path('conteudo/', consulta_conteudo, name="conteudo"),
+    path('exercicios/', consulta_exercicios, name="exercicios"),
 ]

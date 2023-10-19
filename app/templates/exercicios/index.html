@@ -41,21 +41,19 @@
 
     <main>
         <div class="container mt-5 pt-4">
-            <header class="d-flex justify-content-between align-items-center mt-2">
-                <h1>Conteúdo</h1>
+            <div class="d-flex flex-column gap-1">
+                {% for exercicio in exercicios %}
+                <div class="card border rounded shadow-sm">
+                    <div class="card-header">
+                        <h1>Lista de exercícios</h1>
+                    </div>
 
-                <a role="button" class="btn btn-danger btn-sm" href="/materias">Voltar</a>
-            </header>
-
-            <div class="d-flex flex-column gap-1 p-2 border rounded shadow-sm">
-                {% for conteudo in conteudos %}
-                <p class="p-0 m-0"> {{ conteudo.descricao }}</p>
+                    <div class="card-body">
+                        <h3>{{ exercicio.enunciado }}</h3>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
-
-            <footer class="mt-2">
-                <a href="/exercicios?materia={{ id_materia }}" class="link-danger">Acessar lista de exercícios</a>
-            </footer>
         </div>
     </main>
 </body>

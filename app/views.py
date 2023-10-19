@@ -15,7 +15,26 @@ def consulta_conteudo(request):
     id_materia = request.GET.get("materia")
     
     dados = {
-        "conteudos": Conteudo.objects.select_for_update("materia").filter(materia=id_materia)
+        "conteudos": Conteudo.objects.select_related("materia").filter(materia=id_materia),
+        "id_materia": id_materia
     }
     
+    print(dados["conteudos"])
+    
     return render(request, 'conteudo/index.html', dados)
+
+
+def consulta_exercicios(request):
+    id_materia = request.GET.get("materia")
+    exercicios = Exercicio.objects.select_related("materia").filter(materia=id_materia)
+    
+    for exercicio in exercicios:
+        exercicio.alternativas = Alternativa.objects.filter(id=exercicio.alternativa)
+    
+    dados = {
+        "exercicios": exercicios
+    }
+    
+    print(dados["exercicios"])
+    
+    return render(request, 'exercicios/index.html', dados)
