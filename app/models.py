@@ -81,10 +81,9 @@ class Pontuacao(models.Model):
     quantidade = models.IntegerField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE)
      
     def __str__(self):
-        return f"{self.quantidade}, {self.usuario}, {self.materia}, {self.exercicio}"
+        return f"{self.quantidade}, {self.usuario}, {self.materia}"
 
 
 class ResumoAtividade(models.Model):

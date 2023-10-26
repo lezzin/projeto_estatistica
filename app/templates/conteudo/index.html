@@ -27,12 +27,27 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
+                        {% if usuario_nao_logado %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Início</a>
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Início</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/materias">Matérias</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/pontuacao">Pontuações</a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="/logout/" method="post">
+                                {% csrf_token %}
+                                <button class="nav-link"><i class="bi bi-box-arrow-right"></i></button>
+                            </form>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

@@ -55,51 +55,57 @@
     </header>
 
     <main>
-        <div class="container mt-5 pt-4">
+        <div class="container mt-5 py-4">
             <div class="d-flex flex-column gap-1">
                 <div class="card border rounded shadow-sm text-bg-danger">
                     <div class="card-header">
-                        <h1>Lista de exercícios</h1>
+                        <h1>Suas pontuações</h1>
                     </div>
 
                     <div class="card-body">
-                        {% if exercicios %}
-                        <form action="/questionario/" method="POST" id="form">
-                            {% csrf_token %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Pontuação</th>
+                                    <th>Exercício</th>
+                                    <th>Matéria</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if pontuacoes %}
+                                {% for pontuacao in pontuacoes %}
+                                <tr>
+                                    <td>{{ pontuacao.quantidade }}</td>
+                                    <td>{{ pontuacao.exercicio }}</td>
+                                    <td>{{ pontuacao.materia }}</td>
+                                    <td>
+                                        <form action="/pontuacao/deletar" method="POST"
+                                            id="form-excluir-{{ pontuacao.id }}" style="display: none;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ pontuacao.id }}">
+                                        </form>
 
-                            <input type="hidden" name="materia" value="{{ idmateria }}">
-
-                            {% for exercicio in exercicios %}
-                            <input type="hidden" name="exercicio[]" value="{{ exercicio.id }}">
-
-                            <h3>{{ exercicio.enunciado }}</h3>
-                            <div class="d-flex flex-column gap-1 ms-3">
-                                {% for alternativa in exercicio.alternativa %}
-                                <label for="resposta-{{ alternativa.id }}"
-                                    class="d-flex gap-1 align-items-center w-100 p-1 card-text">
-                                    <input type="radio" name="resposta-{{ exercicio.id }}"
-                                        id="resposta-{{ alternativa.id }}" value="{{ alternativa.id }}">
-                                    <p class="m-0 p-0">{{ alternativa.descricao }}</p>
-                                </label>
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-danger"
+                                                form="form-excluir-{{ pontuacao.id }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                                 {% endfor %}
-                            </div>
-                            {% endfor %}
-                        </form>
-                        {% else %}
-                        <div class="alert alert-warning">
-                            <p class="m-0 p-0 mb-1">
-                                <i class="bi bi-exclamation-circle"></i> Nenhum exercício cadastrado.
-                            </p>
-                            <a href="/materias">Voltar para as matérias</a>
-                        </div>
-                        {% endif %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">Nenhuma pontuação encontrada</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
                     </div>
-
-                    {% if exercicios %}
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-success" form="form">Enviar respostas</button>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
