@@ -41,7 +41,7 @@ class Materia(models.Model):
     
     
 class Conteudo(models.Model):
-    descricao = models.CharField()
+    descricao = models.TextField()
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
      
     def __str__(self):
@@ -49,8 +49,9 @@ class Conteudo(models.Model):
     
     
 class Exercicio(models.Model):
-    enunciado = models.CharField(max_length=255)
+    enunciado = models.TextField()
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+    imagem = models.FileField(blank=True, upload_to='images')
  
     def __str__(self):
         return f"{self.enunciado}, {self.materia}"
@@ -83,11 +84,11 @@ class Pontuacao(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
      
     def __str__(self):
-        return f"{self.quantidade}, {self.usuario}, {self.materia}"
+        return f"{self.quantidade}, {self.usuario.nome}, {self.materia.nome}"
 
 
 class ResumoAtividade(models.Model):
-    descricao = models.IntegerField()
+    descricao = models.CharField(max_length=255)
     data = models.DateTimeField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
      

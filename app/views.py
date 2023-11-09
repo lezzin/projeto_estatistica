@@ -1,6 +1,8 @@
+import datetime
 from django.shortcuts import render, get_list_or_404, redirect
 from django.shortcuts import get_list_or_404
 from .models import *
+import random
 
 # Create your views here.
 def index(request):
@@ -71,8 +73,7 @@ def consulta_conteudo(request):
     
     dados = {
         "conteudos": Conteudo.objects.select_related("materia").filter(materia=id_materia),
-        "usuario_nao_logado": request.session.get("usuario") == None,
-        "id_materia": id_materia,
+        "materia": Materia.objects.filter(id=id_materia).first(),
     }
     
     return render(request, 'conteudo/index.html', dados)
@@ -83,14 +84,13 @@ def consulta_exercicios(request):
         return redirect("login")
     
     id_materia = request.GET.get("materia")
-    exercicios = Exercicio.objects.filter(id=id_materia)
-
+    exercicios = Exercicio.objects.filter(materia=id_materia).all()
+    
     for exercicio in exercicios:    
-        exercicio.alternativa = Alternativa.objects.filter(materia=id_materia).filter(exercicio=exercicio.id)
+        exercicio.alternativa = Alternativa.objects.filter(materia=id_materia).filter(exercicio=exercicio.id).order_by("?")
     
     dados = {
         "exercicios": exercicios,
-        "usuario_nao_logado": request.session.get("usuario") == None,
         "idmateria": id_materia,
     }
     
@@ -101,10 +101,9 @@ def consulta_pontuacao(request):
     if request.session.get("usuario") == None:
         return redirect("login")
     
-    pontuacoes = Pontuacao.objects.filter(usuario=1)
+    pontuacoes = Pontuacao.objects.filter(usuario=request.session["usuario"])
     dados = { 
         "pontuacoes": pontuacoes ,
-        "usuario_nao_logado": request.session.get("usuario") == None 
     }
     
     return render(request, 'pontuacao/index.html', dados)
@@ -116,14 +115,8 @@ def deletar_pontuacao(request) :
     
     pontuacao = request.POST.get("id")
     Pontuacao.objects.filter(id=pontuacao).delete()
-    pontuacoes = Pontuacao.objects.filter(usuario=1)
     
-    dados = {
-        "pontuacoes": pontuacoes,
-        "usuario_nao_logado": request.session.get("usuario") == None 
-    }
-    
-    return render(request, 'pontuacao/index.html', dados)
+    return redirect("pontuacao")
 
 
 def verificar_questionario(request):    
@@ -131,7 +124,8 @@ def verificar_questionario(request):
         return redirect("login")
     
     id_materia = request.POST.get("materia")
-    exercicios = Exercicio.objects.filter(id=id_materia)
+    nome_materia = str.lower(Materia.objects.filter(id=id_materia).first().nome)
+    exercicios = Exercicio.objects.filter(materia=id_materia)
     id_usuario = request.session.get("usuario")
     
     pontuacao_usuario = 0
@@ -147,12 +141,64 @@ def verificar_questionario(request):
             if alternativa.status == "correta" and  int(id_alternativa) == int(resposta):
                 pontuacao_usuario += 5
                 
+    if Pontuacao.objects.filter(usuario=id_usuario, materia=id_materia).exists():
+        Pontuacao.objects.filter(usuario=id_usuario, materia=id_materia).delete()
+        
     pontuacao = Pontuacao(quantidade=pontuacao_usuario, usuario=Usuario(id=id_usuario), materia=Materia(id=id_materia))
     pontuacao.save()
     
+    resumo_atividade = ResumoAtividade(descricao=f"Realizou exercício na matéria {nome_materia}", data= datetime.datetime.now(), usuario=Usuario(id=id_usuario))
+    resumo_atividade.save()
+    
     dados = { 
         "pontuacao": pontuacao_usuario,
-        "usuario_nao_logado": request.session.get("usuario") == None 
     }
     
     return render(request, "questionario/index.html", dados)
+
+
+def consulta_calculadora(request):
+    if request.session.get("usuario") == None:
+        return redirect("login")
+    
+    dados = {
+        "materias": get_list_or_404(Materia),
+    }
+      
+    return render(request, "calculadora/index.html", dados)
+
+
+def consulta_ranking(request):
+    if request.session.get("usuario") == None:
+        return redirect("login")
+    
+    dados = {
+        "materias": Materia.objects.all(),
+        "pontuacoes": Pontuacao.objects.all().order_by("-quantidade"),
+    }
+    
+    for materia in dados['materias']:
+        materia.pontuacoes = Pontuacao.objects.filter(materia=materia.id)
+        
+    return render(request, "ranking/index.html", dados)
+
+
+def consulta_atividades(request):
+    if request.session.get("usuario") == None:
+        return redirect("login")
+    
+    dados = {
+        "atividades": ResumoAtividade.objects.filter(usuario=request.session.get("usuario"))
+    }
+     
+    return render(request, "atividades/index.html", dados)
+
+
+def deletar_atividade(request) :    
+    if request.session.get("usuario") == None:
+        return redirect("login")
+    
+    atividade = request.POST.get("id")
+    ResumoAtividade.objects.filter(id=atividade).delete()
+    
+    return redirect("atividades")

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estatísticas</title>
+    <title>Projeto Estatísticas | Conteúdo</title>
 
     {% load static %}
     <link rel="icon" href="{% static 'icone.png' %}">
@@ -36,7 +36,7 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">Início</a>
+                            <a class="nav-link" href="/">Início</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/materias">Matérias</a>
@@ -48,7 +48,7 @@
                             <a class="nav-link" href="/ranking">Ranking</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/atividades">Atividades</a>
+                            <a class="nav-link active" href="/atividades" aria-current="page">Atividades</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/calculadora">Calculadora</a>
@@ -67,28 +67,46 @@
     </header>
 
     <main>
-        <div class="container">
-            <div class="row d-flex flex-column justify-content-center align-items-center min-vh-100">
-                <div class="col-md-4 col-12">
-                    <form action="/login/" class="form border shadow-sm p-3 rounded-3" method="post">
-                        {% csrf_token %}
-                        <h2 class="mb-3">Formulário de Login</h2>
+        <div class="container mt-5 py-4">
+            <h1>Suas atividades</h1>
 
-                        <div class="form-group">
-                            <label for="email"><i class="bi bi-envelope"></i> Email: </label>
-                            <input type="email" class="form-control" placeholder="joao@gmail.com" name="email">
-                        </div>
+            {% if atividades %}
+            <div class="card mt-5 shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for atividade in atividades %}
+                                <tr>
+                                    <td>{{ atividade.descricao }}</td>
+                                    <td>{{ atividade.data }}</td>
+                                    <td>
+                                        <form action="/atividade/deletar" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ atividade.id }}">
 
-                        <div class="form-group mt-2">
-                            <label for="senha"><i class="bi bi-lock"></i> Senha: </label>
-                            <input type="password" class="form-control" placeholder="********" name="senha">
-                        </div>
-
-                        <footer class="text-center mt-4">
-                            <button class="btn w-100 btn-danger">Login</button>
-                            <a href="/cadastro/" class="d-block mt-2 link-danger">Não possui conta? Cadastre-se</a>
-                        </footer>
-                    </form>
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i> Excluir
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning mt-5">
+                        <p class="m-0">Nenhuma atividade encontrada. <a href="/">Voltar para o início</a></p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app.views import *
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,4 +36,10 @@ urlpatterns = [
     
     path('pontuacao/', consulta_pontuacao, name="pontuacao"),
     path('pontuacao/deletar', deletar_pontuacao, name="deletar_pontuacao"),
-]
+    
+    path('calculadora/', consulta_calculadora, name="calculadora"),
+    path('ranking/', consulta_ranking, name="ranking"),
+    
+    path('atividades/', consulta_atividades, name="atividades"),
+    path('atividade/deletar', deletar_atividade, name="deletar_atividade"),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
