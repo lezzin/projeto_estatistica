@@ -1,0 +1,202 @@
+<div class="card shadow-sm mt-md-5">
+    <div class="card-body">
+        <form id="form_um" class="form">
+            <div class="form-group">
+                <label for="materia_correspondente">Selecione a matéria:</label>
+                <select id="materia_correspondente" class="form-control">
+                    <option value="media">Média</option>
+                    <option value="moda">Moda</option>
+                    <option value="mediana">Mediana</option>
+                    <option value="media_ponderada">Média ponderada</option>
+                </select>
+            </div>
+
+            <div class="form-group mt-3 d-none" id="div-media-ponderada">
+                <label for="quantidade_media_ponderada">Quantidade de termos:</label>
+                <select id="quantidade_media_ponderada" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <div class="row d-none" id="peso-valor">
+                <div class="col-sm d-grid gap-1" id="pesos"></div>
+                <div class="col-sm d-grid gap-1" id="valores"></div>
+            </div>
+
+            <div class="form-group mt-3" id="input-media-moda-mediana">
+                <label for="numeros_media">Coloque aqui os números separados por
+                    vírgulas:</label>
+                <input type="text" name="numeros_media" id="numeros_media" class="form-control" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn-danger w-100 mt-3">Calcular</button>
+            <button type="reset" class="btn btn-outline-danger w-100 mt-1">Limpar</button>
+
+            <div class="alert alert-info mb-0 mt-3 p-2 d-none" id="resultado_form_um"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("#form_um");
+        const botaoReset = form.querySelector("button[type='reset']");
+        const selectMaterias = form.querySelector("#materia_correspondente");
+        const inputMediaModaMediana = document.querySelector("#input-media-moda-mediana");
+        const divMediaPonderada = document.querySelector("#div-media-ponderada");
+        const selectMediaPonderada = document.querySelector("#div-media-ponderada select");
+        const containerPesoValor = document.querySelector("#peso-valor");
+        const divPesos = document.querySelector("#pesos");
+        const divValores = document.querySelector("#valores");
+        const htmlResultadoForm = document.querySelector("#resultado_form_um");
+
+        function calcularMedia(valores) {
+            if (valores.length === 0) {
+                return "Nenhum valor para calcular a média.";
+            }
+
+            const soma = valores.reduce((acumulador, valor) => acumulador + valor);
+            const resultado = soma / valores.length;
+
+            return `Resultado da média: ${resultado}`;
+        }
+
+        function calcularModa(valores) {
+            if (valores.length === 0) {
+                return "Nenhum valor para calcular a moda.";
+            }
+
+            const objetoDeValores = {};
+            let moda = [];
+            let maxFrequencia = 0;
+
+            valores.forEach((elemento) => {
+                objetoDeValores[elemento] = (objetoDeValores[elemento] || 0) + 1;
+
+                if (objetoDeValores[elemento] > maxFrequencia) {
+                    moda = [elemento];
+                    maxFrequencia = objetoDeValores[elemento];
+                } else if (objetoDeValores[elemento] === maxFrequencia) {
+                    moda.push(elemento);
+                }
+            });
+
+            return `Resultado da moda: ${moda.join(', ')}`;
+        }
+
+        function calcularMediana(valores) {
+            if (valores.length === 0) {
+                return "Nenhum valor para calcular a mediana.";
+            }
+
+            const listaOrdenada = valores.slice().sort((a, b) => a - b);
+            const metadeLista = Math.floor(listaOrdenada.length / 2);
+
+            if (listaOrdenada.length % 2 === 0) {
+                const elemento1 = listaOrdenada[metadeLista - 1];
+                const elemento2 = listaOrdenada[metadeLista];
+                const mediana = (elemento1 + elemento2) / 2;
+
+                return `Resultado da mediana: ${mediana}`;
+            } else {
+                const mediana = listaOrdenada[metadeLista];
+                return `Resultado da mediana: ${mediana}`;
+            }
+        }
+
+        function calcularMediaPonderada(pesos, valores) {
+            const qtdValores = valores.length;
+            let numerador = 0;
+            let denominador = 0;
+
+            pesos.forEach(peso => { denominador += Number(peso); });
+
+            for (let index = 0; index < qtdValores; index++) {
+                const peso = pesos[index];
+                const valor = valores[index];
+
+                numerador += Number(peso) * Number(valor);
+            }
+
+            return (numerador / denominador).toFixed(2);
+        }
+
+        function exibirResultado(mensagem) {
+            htmlResultadoForm.innerHTML = mensagem;
+            htmlResultadoForm.classList.remove("d-none");
+        }
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            htmlResultadoForm.classList.add("d-none");
+
+            const input = form.querySelector("input");
+            const valoresParaCalcular = input.value ? input.value.split(",").map(valor => Number(valor)) : [];
+            const calculoSelecionado = form.querySelector("select").value;
+
+            if (calculoSelecionado === "media_ponderada") {
+                const listaPesos = Array.from(divPesos.querySelectorAll("input")).map(input => input.value);
+                const listaValores = Array.from(divValores.querySelectorAll("input")).map(input => input.value);
+
+                exibirResultado(calcularMediaPonderada(listaPesos, listaValores));
+                return;
+            }
+
+            const operacoes = {
+                "media": calcularMedia(valoresParaCalcular),
+                "moda": calcularModa(valoresParaCalcular),
+                "mediana": calcularMediana(valoresParaCalcular),
+            };
+
+            exibirResultado(operacoes[calculoSelecionado]);
+            input.value = "";
+        });
+
+        botaoReset.addEventListener("click", () => {
+            htmlResultadoForm.classList.add("d-none");
+            inputMediaModaMediana.classList.remove("d-none");
+            divMediaPonderada.classList.add("d-none");
+            containerPesoValor.classList.add("d-none");
+        });
+
+        selectMediaPonderada.addEventListener("change", ({ target }) => {
+            const { value } = target;
+
+            containerPesoValor.classList.add("mt-3");
+            divPesos.innerHTML = "<label>Pesos</label>";
+            divValores.innerHTML = "<label>Valores</label>";
+
+            for (let index = 0; index < Number(value); index++) {
+                divPesos.innerHTML += `<div class="col-md-6"><input type="text" class="form-control"></div>`;
+            }
+
+            for (let index = 0; index < Number(value); index++) {
+                divValores.innerHTML += `<div class="col-md-6"><input type="text" class="form-control"></div>`;
+            }
+        });
+
+        selectMaterias.addEventListener("change", ({ target }) => {
+            const { value } = target;
+
+            if (value === "media_ponderada") {
+                inputMediaModaMediana.classList.add("d-none");
+                divMediaPonderada.classList.remove("d-none");
+                containerPesoValor.classList.remove("d-none");
+            } else {
+                divPesos.innerHTML = "<label>Pesos</label>";
+                divValores.innerHTML = "<label>Valores</label>";
+
+                inputMediaModaMediana.classList.remove("d-none");
+                divMediaPonderada.classList.add("d-none");
+                containerPesoValor.classList.add("d-none");
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

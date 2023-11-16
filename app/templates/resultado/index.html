@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estatísticas | Matérias</title>
+    <title>Projeto Estatísticas | Conteúdo</title>
 
     {% load static %}
     <link rel="icon" href="{% static 'icone.png' %}">
@@ -23,22 +23,21 @@
     </header>
 
     <main>
-        <div class="container mt-5 pt-4 pb-5">
-            <h1>Lista de matérias</h1>
-
-            <div class="row mt-5">
-                {% for materia in materias %}
-                <div class="col-12 col-md-3">
-                    <a href="/conteudo?materia={{ materia.id }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body">
-                                <h3>{{ materia.nome }}</h3>
-                                <p>{{ materia.descricao }}</p>
-                            </div>
+        <div class="container">
+            <div class="d-flex flex-column gap-1 justify-content-center align-items-center min-vh-100">
+                <div class="px-5 pt-3 pb-1 shadow-sm text-center rounded-3 shadow-sm border position-relative">
+                    <div class="container-fluid py-5">
+                        <div
+                            class="position-absolute top-0 start-50 translate-middle bg-white rounded-circle border px-4 py-3">
+                            <h3 class="display-3"> <i class="bi bi-trophy"></i></h3>
                         </div>
-                    </a>
+
+                        <h4 class="display-6 mt-3">Parabéns! Essa foi a sua pontuação:</h4>
+                        <p class="display-4">{{ pontuacao }}</p>
+
+                        <a href="/pontuacao" class="link-danger d-block mt-4">Visualizar todas as pontuações</a>
+                    </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
     </main>

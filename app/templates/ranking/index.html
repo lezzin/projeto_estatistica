@@ -19,89 +19,37 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-danger fixed-top" data-bs-theme="dark">
-            <div class="container">
-                <a class="navbar-brand" href="/"><i class="bi bi-graph-up-arrow"></i> Estátisticas</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        {% if usuario_nao_logado %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Início</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/materias">Matérias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pontuacao">Pontuações</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/ranking" aria-current="page">Ranking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/atividades">Atividades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/calculadora">Calculadora</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="/logout/" method="post">
-                                {% csrf_token %}
-                                <button class="nav-link"><i class="bi bi-box-arrow-right"></i></button>
-                            </form>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include 'partials/navigation.html' %}
     </header>
 
     <main>
         <div class="container mt-5 pt-4 pb-5">
             <h1>Rankings por matérias</h1>
 
-            <div class="row mt-5 gap-1 gap-md-0">
+            <div class="row mt-5 gap-2">
                 {% for materia in materias %}
-                <div class="col-md-4 col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h2>{{ materia.nome }} </h2>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2>{{ materia.nome }} </h2>
 
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Posição</th>
-                                        <th>Usuário</th>
-                                        <th>Quantidade</th>
-                                    </tr>
-                                </thead>
-                                {% if materia.pontuacoes %}
-                                {% for pontuacao in materia.pontuacoes %}
-                                <tbody>
-                                    <tr class="{% if forloop.counter == 1 %} table-warning {% endif %}">
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ pontuacao.usuario.nome }}</td>
-                                        <td>{{ pontuacao.quantidade }} </td>
-                                    </tr>
-                                </tbody>
-                                {% endfor %}
-                                {% else %}
-                                <tr>
-                                    <td colspan="3" class="text-center">Nenhuma pontuação encontrada</td>
-                                </tr>
-                                {% endif %}
-                            </table>
-                        </div>
+                        {% if materia.pontuacoes %}
+                        <ul class="list-group">
+                            {% for pontuacao in materia.pontuacoes %}
+                            <li
+                                class="list-group-item {% if forloop.counter == 1 %} list-group-item-warning {% endif %}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="m-0">{{ forloop.counter }}.</p>
+                                    <p class="m-0">{{ pontuacao.usuario.nome }}</p>
+                                    <span class="badge bg-danger"> {{ pontuacao.quantidade }} </span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>Nenhum usuário realizou atividades relacionadas a essa matéria.
+                            <a href="/conteudo?materia={{ materia.id }}">Seja o primeiro!</a>
+                        </p>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

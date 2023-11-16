@@ -32,7 +32,7 @@ urlpatterns = [
     
     path('conteudo/', consulta_conteudo, name="conteudo"),
     path('exercicios/', consulta_exercicios, name="exercicios"),
-    path('questionario/', verificar_questionario, name="questionario"),
+    path('resultado/', verificar_resultado, name="resultado"),
     
     path('pontuacao/', consulta_pontuacao, name="pontuacao"),
     path('pontuacao/deletar', deletar_pontuacao, name="deletar_pontuacao"),

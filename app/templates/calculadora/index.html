@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estatísticas | Conteúdo</title>
+    <title>Projeto Estatísticas | Calculadora</title>
 
     {% load static %}
     <link rel="icon" href="{% static 'icone.png' %}">
@@ -19,51 +19,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-danger fixed-top" data-bs-theme="dark">
-            <div class="container">
-                <a class="navbar-brand" href="/"><i class="bi bi-graph-up-arrow"></i> Estátisticas</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        {% if usuario_nao_logado %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/">Início</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/materias">Matérias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pontuacao">Pontuações</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/ranking">Ranking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/atividades">Atividades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/calculadora" aria-current="page">Calculadora</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="/logout/" method="post">
-                                {% csrf_token %}
-                                <button class="nav-link"><i class="bi bi-box-arrow-right"></i></button>
-                            </form>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include 'partials/navigation.html' %}
     </header>
 
     <main>
@@ -89,124 +45,13 @@
 
                 <div class="col-md-8 order-1 order-md-2">
                     <h1>Calculadora</h1>
-
-                    <div class="card shadow-sm mt-md-5">
-                        <div class="card-body">
-                            <form id="form_um" class="form">
-                                <div class="form-group">
-                                    <label for="materia_correspondente">Selecione a matéria:</label>
-                                    <select name="materia_correspondente" id="materia_correspondente"
-                                        class="form-control">
-                                        <option value="media">Média</option>
-                                        <option value="moda">Moda</option>
-                                        <option value="mediana">Mediana</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group mt-3">
-                                    <label for="numeros_media">Coloque aqui os números separados por
-                                        vírgulas:</label>
-                                    <input type="text" name="numeros_media" id="numeros_media" class="form-control"
-                                        placeholder="..." autocomplete="off">
-                                </div>
-
-                                <button type="submit" class="btn btn-danger w-100 mt-3">Calcular</button>
-                            </form>
-                        </div>
+                    <div class="w-50">
+                        {% include 'partials/calculadora.html' %}
                     </div>
-
-                    <div class="alert alert-info mb-0 mt-3 d-none" id="resultado_form_um"></div>
                 </div>
             </div>
         </div>
     </main>
-
-    <script>
-        const formUm = document.querySelector("#form_um");
-        const htmlResultadoFormUm = document.querySelector("#resultado_form_um");
-
-        function media(valores) {
-            if (valores.length === 0) {
-                return "Nenhum valor para calcular a média.";
-            }
-
-            const soma = valores.reduce((acumulador, valor) => acumulador + valor);
-            console.log(soma);
-
-            const resultado = soma / valores.length;
-
-            return `Resultado da média: ${resultado}`;
-        }
-
-        function moda(valores) {
-            if (valores.length === 0) {
-                return "Nenhum valor para calcular a mediana.";
-            }
-
-            const objetoDeValores = {};
-            let moda = [];
-            let maxFrequencia = 0;
-
-            valores.forEach((elemento) => {
-                objetoDeValores[elemento] = (objetoDeValores[elemento] || 0) + 1;
-
-                if (objetoDeValores[elemento] > maxFrequencia) {
-                    moda = [elemento];
-                    maxFrequencia = objetoDeValores[elemento];
-                } else if (objetoDeValores[elemento] === maxFrequencia) {
-                    moda.push(elemento);
-                }
-            });
-
-            return `Resultado da moda: ${moda.join(', ')}`;
-        }
-
-        function mediaAritmetica(valores) {
-            const somaValores = valores.reduce((acumulador, valor) => acumulador + valor, 0);
-            return somaValores / valores.length;
-        }
-
-        function mediana(valores) {
-            if (valores.length === 0) {
-                return "Nenhum valor para calcular a mediana.";
-            }
-
-            const listaOrdenada = valores.slice().sort((a, b) => a - b);
-            const metadeLista = Math.floor(listaOrdenada.length / 2);
-
-            if (listaOrdenada.length % 2 === 0) {
-                const elemento1 = listaOrdenada[metadeLista - 1];
-                const elemento2 = listaOrdenada[metadeLista];
-                const mediana = (elemento1 + elemento2) / 2;
-
-                return `Resultado da mediana: ${mediana}`;
-            } else {
-                const mediana = listaOrdenada[metadeLista];
-                return `Resultado da mediana: ${mediana}`;
-            }
-        }
-
-        formUm.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            htmlResultadoFormUm.classList.add("d-none");
-
-            const input = formUm.querySelector("input");
-            const valores = input.value ? input.value.split(",").map(valor => Number(valor)) : [];
-            const calculoSelecionado = formUm.querySelector("select").value;
-
-            const operacoes = {
-                "media": media(valores),
-                "moda": moda(valores),
-                "mediana": mediana(valores),
-            }
-
-            htmlResultadoFormUm.innerHTML = operacoes[calculoSelecionado];
-            htmlResultadoFormUm.classList.remove("d-none");
-
-            input.value = "";
-        })
-    </script>
 </body>
 
 </html>

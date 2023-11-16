@@ -19,60 +19,24 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-danger fixed-top" data-bs-theme="dark">
-            <div class="container">
-                <a class="navbar-brand" href="/"><i class="bi bi-graph-up-arrow"></i> Estátisticas</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        {% if usuario_nao_logado %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Início</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/materias">Matérias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pontuacao">Pontuações</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/ranking">Ranking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/atividades">Atividades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/calculadora">Calculadora</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="/logout/" method="post">
-                                {% csrf_token %}
-                                <button class="nav-link"><i class="bi bi-box-arrow-right"></i></button>
-                            </form>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include 'partials/navigation.html' %}
     </header>
 
     <main>
         <div class="container mt-5 pt-4 pb-5">
-            <h1>Lista de exercícios</h1>
+            <header>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1>Lista de exercícios - {{ materia }}</h1>
+                    <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#calculadora_offcanvas" aria-controls="calculadora_offcanvas">
+                        Calculadora
+                    </button>
+                </div>
+            </header>
 
             <div class="mt-5">
                 {% if exercicios %}
-                <form action="/questionario/" method="POST" id="form" class="d-flex flex-column gap-2">
+                <form action="/resultado/" method="POST" id="form" class="d-flex flex-column gap-2">
                     {% csrf_token %}
 
                     <input type="hidden" name="materia" value="{{ idmateria }}">
@@ -116,6 +80,19 @@
             {% endif %}
         </div>
     </main>
+
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="calculadora_offcanvas"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Calculadora</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p>Utilize essa calculadora somente em último caso!</p>
+
+            {% include 'partials/calculadora.html' %}
+        </div>
+    </div>
 </body>
 
 </html>

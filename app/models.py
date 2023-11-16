@@ -41,7 +41,8 @@ class Materia(models.Model):
     
     
 class Conteudo(models.Model):
-    descricao = models.TextField()
+    descricao = models.TextField(blank=True)
+    imagem = models.FileField(blank=True, upload_to='images')
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
      
     def __str__(self):

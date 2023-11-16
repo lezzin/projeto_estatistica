@@ -2,7 +2,6 @@ import datetime
 from django.shortcuts import render, get_list_or_404, redirect
 from django.shortcuts import get_list_or_404
 from .models import *
-import random
 
 # Create your views here.
 def index(request):
@@ -92,6 +91,7 @@ def consulta_exercicios(request):
     dados = {
         "exercicios": exercicios,
         "idmateria": id_materia,
+        "materia": (Materia.objects.filter(id=id_materia).values()[0]["nome"]).lower(),
     }
     
     return render(request, 'exercicios/index.html', dados)
@@ -119,7 +119,7 @@ def deletar_pontuacao(request) :
     return redirect("pontuacao")
 
 
-def verificar_questionario(request):    
+def verificar_resultado(request):    
     if request.session.get("usuario") == None:
         return redirect("login")
     
@@ -154,7 +154,7 @@ def verificar_questionario(request):
         "pontuacao": pontuacao_usuario,
     }
     
-    return render(request, "questionario/index.html", dados)
+    return render(request, "resultado/index.html", dados)
 
 
 def consulta_calculadora(request):

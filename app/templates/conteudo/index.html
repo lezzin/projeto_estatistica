@@ -19,57 +19,13 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-danger fixed-top" data-bs-theme="dark">
-            <div class="container">
-                <a class="navbar-brand" href="/"><i class="bi bi-graph-up-arrow"></i> Estátisticas</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        {% if usuario_nao_logado %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Início</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/materias">Matérias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pontuacao">Pontuações</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/ranking">Ranking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/atividades">Atividades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/calculadora">Calculadora</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="/logout/" method="post">
-                                {% csrf_token %}
-                                <button class="nav-link"><i class="bi bi-box-arrow-right"></i></button>
-                            </form>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include 'partials/navigation.html' %}
     </header>
 
     <main>
         <div class="container mt-5 pt-4 pb-5">
             <header class="d-flex justify-content-between align-items-center mt-2">
-                <h1>Conteúdo - {{ materia.nome }}</h1>
+                <h1>Conteúdo - {{ materia.nome|lower }}</h1>
 
                 <a role="button" class="btn btn-danger btn-sm" href="/materias">Voltar</a>
             </header>
@@ -77,7 +33,9 @@
             <div class="d-flex flex-column gap-2 mt-5 min-vh-75">
                 {% for conteudo in conteudos %}
                 <p class="p-0 m-0"> {{ conteudo.descricao|linebreaksbr }}</p>
-                {% endfor %}
+                {% if conteudo.imagem %}
+                <img src="{{ conteudo.imagem.url }}" alt="Imagem do exercício" width="480">
+                {% endif %} {% endfor %}
             </div>
 
             <footer class="mt-5 border-top py-2">
