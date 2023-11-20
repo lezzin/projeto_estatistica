@@ -24,28 +24,16 @@
 
     <main>
         <div class="container mt-5 py-4">
+            <header>
+                <h1>Calculadora</h1>
+                <p class="text-muted">
+                    Acesse essa calculadora para realizar contas relacionadas à estatísticas.
+                </p>
+            </header>
 
             <div class="row">
-                <div class="col-md-4 mt-md-0 mt-5 order-2 order-md-1">
-                    <h2 class="h1 mb-md-5">Lista de matérias</h2>
-
-                    <div class="row gap-1">
-                        {% for materia in materias %}
-                        <a href="/conteudo?materia={{ materia.id }}" class="text-decoration-none">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h3>{{ materia.nome }}</h3>
-                                    <p>{{ materia.descricao }}</p>
-                                </div>
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-md-8 order-1 order-md-2">
-                    <h1>Calculadora</h1>
-                    <div class="w-50">
+                <div class="col" style="max-width: 500px;">
+                    <div class="mt-5">
                         {% include 'partials/calculadora.html' %}
                     </div>
                 </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estatísticas</title>
+    <title>Projeto Estatísticas | Login</title>
 
     {% load static %}
     <link rel="icon" href="{% static 'icone.png' %}">
@@ -26,25 +26,30 @@
         <div class="container">
             <div class="row d-flex flex-column justify-content-center align-items-center min-vh-100">
                 <div class="col-md-4 col-12">
-                    <form action="/login/" class="form border shadow-sm p-3 rounded-3" method="post">
-                        {% csrf_token %}
-                        <h2 class="mb-3">Formulário de Login</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="/login/" class="form" method="post">
+                                {% csrf_token %}
+                                <h2 class="mb-3">Formulário de Login</h2>
 
-                        <div class="form-group">
-                            <label for="email"><i class="bi bi-envelope"></i> Email: </label>
-                            <input type="email" class="form-control" placeholder="joao@gmail.com" name="email">
+                                <div class="form-group">
+                                    <label for="email"><i class="bi bi-envelope"></i> Email: </label>
+                                    <input type="email" class="form-control" placeholder="joao@gmail.com" name="email">
+                                </div>
+
+                                <div class="form-group mt-2">
+                                    <label for="senha"><i class="bi bi-lock"></i> Senha: </label>
+                                    <input type="password" class="form-control" placeholder="********" name="senha">
+                                </div>
+
+                                <footer class="text-center mt-4">
+                                    <button class="btn w-100 btn-danger">Login</button>
+                                    <a href="/cadastro/" class="d-block mt-2 link-danger">Não possui conta?
+                                        Cadastre-se</a>
+                                </footer>
+                            </form>
                         </div>
-
-                        <div class="form-group mt-2">
-                            <label for="senha"><i class="bi bi-lock"></i> Senha: </label>
-                            <input type="password" class="form-control" placeholder="********" name="senha">
-                        </div>
-
-                        <footer class="text-center mt-4">
-                            <button class="btn w-100 btn-danger">Login</button>
-                            <a href="/cadastro/" class="d-block mt-2 link-danger">Não possui conta? Cadastre-se</a>
-                        </footer>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

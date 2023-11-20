@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estatísticas | Conteúdo</title>
+    <title>Projeto Estatísticas | Exercícios</title>
 
     {% load static %}
     <link rel="icon" href="{% static 'icone.png' %}">
@@ -45,12 +45,16 @@
                     <div class="rounded border p-3">
                         <input type="hidden" name="exercicio[]" value="{{ exercicio.id }}">
 
-                        <h3>{{forloop.counter}}. {{ exercicio.enunciado|linebreaksbr }}</h3>
+                        <div class="d-flex">
+                            <h3 class="me-2">{{forloop.counter}}.</h3>
+                            <h3>{{ exercicio.enunciado|linebreaksbr }}</h3>
+                        </div>
+
                         {% if exercicio.imagem %}
                         <img class="img-fluid" src="{{ exercicio.imagem.url }}" alt="Imagem do exercício">
                         {% endif %}
 
-                        <div class="d-flex flex-column gap-1 ms-3 {% if exercicio.imagem %} mt-4 {% endif %}">
+                        <div class="d-flex flex-column gap-1 ms-5 mt-3">
                             {% for alternativa in exercicio.alternativa %}
                             <label for="resposta-{{ alternativa.id }}"
                                 class="d-flex gap-1 align-items-center w-100 p-1 card-text">

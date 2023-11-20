@@ -5,14 +5,29 @@ from .models import *
 
 # Create your views here.
 def index(request):
-    dados = { "usuario_nao_logado": request.session.get("usuario") == None }
+    return render(request, 'index.html')
     
-    return render(request, 'index.html', dados)
     
+def contato(request):
+    return render(request, 'contato/index.html')
+    
+    
+def enviar_mensagem(request):
+    if request.method == "POST":
+        mensagem = request.POST.get("mensagem")
+        assunto = request.POST.get("assunto") 
+        id_usuario = request.session.get("usuario")
+        
+        contato = Contato(mensagem=mensagem, assunto=assunto, usuario=Usuario(id=id_usuario))
+        contato.save()
+    
+    return redirect("contato")
+
     
 def login(request):
-    dados = { "usuario_nao_logado": request.session.get("usuario") == None }
-     
+    dados = {
+        "usuario_nao_logado": request.session.get("usuario") == None
+    }
     if request.method == "GET":
         return render(request, 'login/index.html', dados)
     else:
@@ -57,7 +72,7 @@ def consulta_materias(request):
         return redirect("login")
     
     dados = {
-        "materias": get_list_or_404(Materia),
+        "materias": Materia.objects.all(),
         "usuario_nao_logado": request.session.get("usuario") == None 
     }
     
@@ -161,11 +176,20 @@ def consulta_calculadora(request):
     if request.session.get("usuario") == None:
         return redirect("login")
     
+    return render(request, "calculadora/index.html")
+
+
+def consulta_perfil(request):
+    if request.session.get("usuario") == None:
+        return redirect("login")
+    
+    id_usuario = request.session.get("usuario")
+    
     dados = {
-        "materias": get_list_or_404(Materia),
+        "usuario": Usuario.objects.filter(id=id_usuario).first(),
     }
       
-    return render(request, "calculadora/index.html", dados)
+    return render(request, "perfil/index.html", dados)
 
 
 def consulta_ranking(request):

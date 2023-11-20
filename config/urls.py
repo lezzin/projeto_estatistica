@@ -28,6 +28,9 @@ urlpatterns = [
     path('logout/', logout, name="logout"),
     path('cadastro/', cadastro, name="cadastro"),
     
+    path('contato/', contato, name="contato"),
+    path('contato/enviar_mensagem/', enviar_mensagem, name="enviar_mensagem"),
+    
     path('materias/', consulta_materias, name="materias"),
     
     path('conteudo/', consulta_conteudo, name="conteudo"),
@@ -37,8 +40,11 @@ urlpatterns = [
     path('pontuacao/', consulta_pontuacao, name="pontuacao"),
     path('pontuacao/deletar', deletar_pontuacao, name="deletar_pontuacao"),
     
-    path('calculadora/', consulta_calculadora, name="calculadora"),
     path('ranking/', consulta_ranking, name="ranking"),
+    
+    path('perfil/', consulta_perfil, name="perfil"),
+    
+    path('calculadora/', consulta_calculadora, name="calculadora"),
     
     path('atividades/', consulta_atividades, name="atividades"),
     path('atividade/deletar', deletar_atividade, name="deletar_atividade"),

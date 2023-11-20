@@ -24,25 +24,38 @@
 
     <main>
         <div class="container mt-5 pt-4 pb-5">
-            <header class="d-flex justify-content-between align-items-center mt-2">
-                <h1>Conteúdo - {{ materia.nome|lower }}</h1>
+            <h1>{{ materia.nome }}</h1>
 
-                <a role="button" class="btn btn-danger btn-sm" href="/materias">Voltar</a>
-            </header>
-
+            {% if conteudos %}
             <div class="d-flex flex-column gap-2 mt-5 min-vh-75">
                 {% for conteudo in conteudos %}
-                <p class="p-0 m-0"> {{ conteudo.descricao|linebreaksbr }}</p>
-                {% if conteudo.imagem %}
-                <img src="{{ conteudo.imagem.url }}" alt="Imagem do exercício" width="480">
-                {% endif %} {% endfor %}
+                <div>
+                    <p class="p-0 m-0"> {{ conteudo.descricao|linebreaksbr }}</p>
+                    {% if conteudo.imagem %}
+                    <img class="img-fluid mt-4" src="{{ conteudo.imagem.url }}" alt="Imagem">
+                    {%endif %}
+                </div>
+                {% endfor %}
             </div>
 
             <footer class="mt-5 border-top py-2">
-                <a href="/exercicios?materia={{ materia.id }}" class="btn btn-outline-danger" role="button">
-                    Acessar lista de exercícios
-                </a>
+                <div class="btn-group">
+                    <a href="/exercicios?materia={{ materia.id }}" class="btn btn-outline-danger" role="button">
+                        Acessar lista de exercícios
+                    </a>
+
+                    <a role="button" class="btn btn-danger" href="/materias">Voltar</a>
+                </div>
             </footer>
+
+            {% else %}
+            <div class="alert alert-warning mt-5">
+                <p class="m-0 p-0">
+                    <i class="bi bi-exclamation-circle"></i> Nenhum conteúdo cadastrado.
+                    <a href="/materias">Voltar para as matérias</a>
+                </p>
+            </div>
+            {% endif %}
         </div>
     </main>
 </body>

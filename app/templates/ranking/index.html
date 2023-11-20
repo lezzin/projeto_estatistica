@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estatísticas | Conteúdo</title>
+    <title>Projeto Estatísticas | Ranking</title>
 
     {% load static %}
     <link rel="icon" href="{% static 'icone.png' %}">
@@ -24,9 +24,13 @@
 
     <main>
         <div class="container mt-5 pt-4 pb-5">
-            <h1>Rankings por matérias</h1>
+            <header>
+                <h1>Rankings por matérias</h1>
+                <p class="text-muted">Lista dos usuários com mais pontos em cada matéria.</p>
+            </header>
 
             <div class="row mt-5 gap-2">
+                {% if conteudos %}
                 {% for materia in materias %}
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -53,6 +57,14 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <div class="alert alert-warning">
+                    <p class="m-0 p-0">
+                        <i class="bi bi-exclamation-circle"></i> Nenhuma matéria cadastrada.
+                        <a href="/">Voltar para o início</a>
+                    </p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </main>

@@ -23,12 +23,31 @@
     </header>
 
     <main>
-        <div class="container mt-5 pt-4 pb-5">
-            <h1>Lista de matérias</h1>
+        <header class="container-flui mt-5 pt-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 col-12">
+                        <h1>Lista de matérias</h1>
+                    </div>
 
+                    <div class="col-md-3 col-12">
+                        <form class="form mb-3" id="form-pesquisa">
+                            <div class="input-group">
+                                <input type="search" class="form-control" placeholder="Pesquisar matéria específica"
+                                    id="input-pesquisa" autocomplete="off">
+                                <span class="input-group-text bg-danger text-white"><i class="bi bi-search"></i></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mt-3 pb-5">
             <div class="row mt-5">
+                {% if materias %}
                 {% for materia in materias %}
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-3 mt-2 mt-md-0" data-materia>
                     <a href="/conteudo?materia={{ materia.id }}" class="text-decoration-none">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body">
@@ -39,9 +58,37 @@
                     </a>
                 </div>
                 {% endfor %}
+                {% else %}
+                <div class="alert alert-warning">
+                    <p class="m-0 p-0">
+                        <i class="bi bi-exclamation-circle"></i> Nenhuma matéria cadastrada.
+                        <a href="/">Voltar para o início</a>
+                    </p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </main>
+
+    <script>
+        const input = document.querySelector("#input-pesquisa");
+        const divMaterias = document.querySelectorAll("[data-materia]");
+
+        input.addEventListener("input", (e) => {
+            e.preventDefault();
+
+            divMaterias.forEach(materia => { materia.classList.add("d-none"); });
+
+            divMaterias.forEach(materia => {
+                const nomeMateria = materia.querySelector("h3").innerHTML.toLowerCase();
+                const valorPesquisa = input.value.toLowerCase();
+
+                if (nomeMateria.includes(valorPesquisa)) {
+                    materia.classList.remove("d-none");
+                }
+            })
+        });
+    </script>
 </body>
 
 </html>

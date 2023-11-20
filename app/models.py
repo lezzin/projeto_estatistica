@@ -1,5 +1,21 @@
 from django.db import models
 
+import os
+import uuid
+from django.utils import timezone
+
+
+def gerar_nome_aleatorio(instance, filename):
+    # Get the file extension
+    ext = filename.split('.')[-1]
+
+    # Generate a unique filename using a timestamp and a random string
+    unique_filename = f"{timezone.now().strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}.{ext}"
+
+    # Return the unique filename
+    return os.path.join('images/', unique_filename)
+
+
 # Create your models here.
 class Usuario(models.Model):
     ADMIN = "1"
@@ -24,8 +40,8 @@ class Usuario(models.Model):
     
 
 class Contato(models.Model):
-    mensagem = models.CharField(max_length=45)
-    assunto = models.CharField(max_length=45)
+    mensagem = models.TextField()
+    assunto = models.TextField(max_length=255)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -42,7 +58,7 @@ class Materia(models.Model):
     
 class Conteudo(models.Model):
     descricao = models.TextField(blank=True)
-    imagem = models.FileField(blank=True, upload_to='images')
+    imagem = models.FileField(blank=True, upload_to=gerar_nome_aleatorio)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
      
     def __str__(self):
@@ -52,7 +68,7 @@ class Conteudo(models.Model):
 class Exercicio(models.Model):
     enunciado = models.TextField()
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    imagem = models.FileField(blank=True, upload_to='images')
+    imagem = models.FileField(blank=True, upload_to=gerar_nome_aleatorio)
  
     def __str__(self):
         return f"{self.enunciado}, {self.materia}"
