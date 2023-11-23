@@ -33,30 +33,38 @@
                 <div class="card-body">
                     <p class="m-0">Nome: {{ usuario.nome }}</p>
                     <p class="m-0">Email: {{ usuario.email }}</p>
-                    <p class="m-0">Senha: {{ usuario.senha }}</p>
+                    <div class="d-flex gap-1 align-items-center" id="senha">
+                        <p class="m-0"></p>
+                        <button class="btn btn-sm p-1"><i class="bi bi-eye"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        const input = document.querySelector("#input-pesquisa");
-        const divMaterias = document.querySelectorAll("[data-materia]");
+        const senhaUsuario = `{{ usuario.senha }}`;
 
-        input.addEventListener("input", (e) => {
-            e.preventDefault();
+        const senha = document.querySelector("#senha");
+        const p = senha.querySelector("p");
+        const btn = senha.querySelector("button");
 
-            divMaterias.forEach(materia => { materia.classList.add("d-none"); });
+        let asteriscos = "";
+        for (let i = 0; i < senhaUsuario.length; i++) {
+            asteriscos += "*";
+        }
 
-            divMaterias.forEach(materia => {
-                const nomeMateria = materia.querySelector("h3").innerHTML.toLowerCase();
-                const valorPesquisa = input.value.toLowerCase();
+        p.innerHTML = `Senha: ${asteriscos}`;
 
-                if (nomeMateria.includes(valorPesquisa)) {
-                    materia.classList.remove("d-none");
-                }
-            })
-        });
+        btn.addEventListener("click", () => {
+            if (p.innerHTML.includes(asteriscos)) {
+                p.innerHTML = `Senha: ${senhaUsuario}`;
+                btn.innerHTML = `<i class="bi bi-eye"></i>`;
+            } else {
+                p.innerHTML = `Senha: ${asteriscos}`;
+                btn.innerHTML = `<i class="bi bi-eye-slash"></i>`;
+            }
+        })
     </script>
 </body>
 

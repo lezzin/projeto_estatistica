@@ -46,22 +46,28 @@
                         <input type="hidden" name="exercicio[]" value="{{ exercicio.id }}">
 
                         <div class="d-flex">
-                            <h3 class="me-2">{{forloop.counter}}.</h3>
-                            <h3>{{ exercicio.enunciado|linebreaksbr }}</h3>
+                            <p class="me-2 fs-5"> {{forloop.counter}}.</p>
+                            <p class="fs-5">
+                                {{ exercicio.enunciado|linebreaksbr }}
+                            </p>
                         </div>
 
                         {% if exercicio.imagem %}
-                        <img class="img-fluid" src="{{ exercicio.imagem.url }}" alt="Imagem do exercício">
+                        <img class="img-fluid ms-4" src="{{ exercicio.imagem.url }}" alt="Imagem do exercício">
                         {% endif %}
 
-                        <div class="d-flex flex-column gap-1 ms-5 mt-3">
+                        <hr>
+
+                        <div class="d-flex flex-column mt-3 ms-4">
                             {% for alternativa in exercicio.alternativa %}
-                            <label for="resposta-{{ alternativa.id }}"
-                                class="d-flex gap-1 align-items-center w-100 p-1 card-text">
-                                <input type="radio" name="resposta-{{ exercicio.id }}"
-                                    id="resposta-{{ alternativa.id }}" value="{{ alternativa.id }}">
-                                <p class="m-0 p-0">{{ alternativa.descricao }}</p>
-                            </label>
+                            <small>
+                                <label for="resposta-{{ alternativa.id }}"
+                                    class="d-flex gap-1 align-items-center w-100 p-1 card-text">
+                                    <input type="radio" name="resposta-{{ exercicio.id }}"
+                                        id="resposta-{{ alternativa.id }}" value="{{ alternativa.id }}">
+                                    <p class="m-0 p-0">{{ alternativa.descricao }}</p>
+                                </label>
+                            </small>
                             {% endfor %}
                         </div>
                     </div>
