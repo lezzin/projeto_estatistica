@@ -16,9 +16,8 @@ Um aplicativo web de aprendizado construído com Django. Este aplicativo permite
 Para usar o aplicativo Estatistica:
 
 Localmente:<br>
-# Iniciando um Projeto Django com MySQL
 
-## Passo 1: Configurar o Ambiente Virtual
+### Passo 1: Configurar o Ambiente Virtual
 
 ```bash
 pip install virtualenv
@@ -27,13 +26,13 @@ source nome_do_seu_ambiente/bin/activate   # No Linux/Mac
 nome_do_seu_ambiente\Scripts\activate      # No Windows
 ```
 
-## Passo 2: Instalar o Django
+### Passo 2: Instalar o Django
 
 ```bash
 pip install django 
 ```
 
-## Passo 3: Configurar o Banco de Dados MySQL
+### Passo 3: Configurar o Banco de Dados MySQL
 
 ```bash
 pip install mysqlclient
@@ -57,19 +56,19 @@ DATABASES = {
 }
 ```
 
-## Passo 4: Aplicar migrações
+### Passo 4: Aplicar migrações
 
 ```bash
 python manage.py migrate
 ```
 
-## Passo 5: Criar um Superusuário (Opcional)
+### Passo 5: Criar um Superusuário (Opcional)
 
 ```bash
 python manage.py createsuperuser
 ```
 
-## Passo 6: Iniciar o Servidor de Desenvolvimento
+### Passo 6: Iniciar o Servidor de Desenvolvimento
 
 ```bash
 python manage.py runserver
@@ -82,4 +81,12 @@ Lembre-se de consultar a documentação oficial do Django e MySQL em caso de dú
 [MySQL]([https://github.com/lezzin/projeto_estatistica/assets/103830032/953f34ab-c6ce-46b4-9e5c-470e6e30fc04](https://www.mysql.com/))
 
 Hospedagem:<br>
-Basta acessar o link: [clique aqui para acessar]([https://lista-tarefas-xi.vercel.app/](https://leandroadrian.pythonanywhere.com/))
+Basta acessar o link: [clique aqui para acessar](https://leandroadrian.pythonanywhere.com/)
+
+## Tecnologias utilizadas:
+
+* Django
+* HTML
+* Bootstrap
+* JavaScript
+* MySQL 
