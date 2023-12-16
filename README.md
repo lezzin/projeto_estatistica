@@ -1,5 +1,7 @@
 ![Foto do projeto](https://github.com/lezzin/projeto_estatistica/assets/103830032/953f34ab-c6ce-46b4-9e5c-470e6e30fc04)
 
+# Projeto Estatisticas
+
 Um aplicativo web de aprendizado construído com Django. Este aplicativo permite aos usuários visualizar matérias, conteúdos e realizar exercicios para fixação do aprendizado, além de visualizar sua pontuação.
 
 ## Recursos
@@ -11,7 +13,7 @@ Um aplicativo web de aprendizado construído com Django. Este aplicativo permite
 - Visualizar pontuação
 - Sistema de ranking
 
-## Começando
+## Guia de instalação
 
 Para usar o aplicativo Estatistica:
 
@@ -90,3 +92,9 @@ Basta acessar o link: [clique aqui para acessar](https://leandroadrian.pythonany
 * Bootstrap
 * JavaScript
 * MySQL 
+
+## Minhas redes sociais para contato
+
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/leandroadrian_/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leandro-adrian)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LeandroAdrian)
