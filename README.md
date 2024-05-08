@@ -1,3 +1,5 @@
+![Estatísticas](https://github.com/lezzin/projeto_estatistica/assets/103830032/812a9087-113b-4943-95d5-ced039bcfc2d)
+
 # Projeto Estatisticas
 
 Um aplicativo web de aprendizado construído com Django. Este aplicativo permite aos usuários visualizar matérias, conteúdos e realizar exercicios para fixação do aprendizado, além de visualizar sua pontuação.
