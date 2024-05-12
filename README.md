@@ -1,6 +1,10 @@
+<h1 align="center"> 🚀 <br> Estatísticas</h1>
+
 ![Estatísticas](https://github.com/lezzin/projeto_estatistica/assets/103830032/812a9087-113b-4943-95d5-ced039bcfc2d)
 
-# Projeto Estatisticas
+<h4 align="center"><a href="https://leandroadrian.pythonanywhere.com">Acessar projeto</a></h4>
+
+---
 
 Um aplicativo web de aprendizado construído com Django. Este aplicativo permite aos usuários visualizar matérias, conteúdos e realizar exercicios para fixação do aprendizado, além de visualizar sua pontuação.
 
@@ -78,12 +82,9 @@ python manage.py runserver
 
 Acesse http://127.0.0.1:8000/ no navegador para ver o seu projeto em execução localmente.
 
-Lembre-se de consultar a documentação oficial do Django e MySQL em caso de dúvidas.
-[Django]([https://github.com/lezzin/projeto_estatistica/assets/103830032/953f34ab-c6ce-46b4-9e5c-470e6e30fc04](https://www.djangoproject.com/))
-[MySQL]([https://github.com/lezzin/projeto_estatistica/assets/103830032/953f34ab-c6ce-46b4-9e5c-470e6e30fc04](https://www.mysql.com/))
-
-Hospedagem:<br>
-Basta acessar o link: [clique aqui para acessar](https://leandroadrian.pythonanywhere.com/)
+Lembre-se de consultar a documentação oficial do Django e MySQL em caso de dúvidas:
+[Django](https://www.djangoproject.com/),
+[MySQL](https://www.mysql.com/).
 
 ## Tecnologias utilizadas:
 
@@ -96,6 +97,6 @@ Basta acessar o link: [clique aqui para acessar](https://leandroadrian.pythonany
 ## Contato
 Você pode me encontrar nas seguintes redes sociais:
 
-[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/leandroadrian_/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leandro-adrian)
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LeandroAdrian)
+[![Instagram](https://img.shields.io/badge/Instagram-0E6212?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/leandroadrian_/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0E6212?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leandro-adrian)
+[![Telegram](https://img.shields.io/badge/Telegram-0E6212?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LeandroAdrian)
