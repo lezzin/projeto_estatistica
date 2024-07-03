@@ -1,4 +1,4 @@
-<h1 align="center"> 🚀 <br> Estatísticas</h1>
+<h1 align="center"> 📊 <br> Estatísticas</h1>
 
 ![Estatísticas](https://github.com/lezzin/projeto_estatistica/assets/103830032/812a9087-113b-4943-95d5-ced039bcfc2d)
 
